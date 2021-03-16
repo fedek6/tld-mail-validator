@@ -42,10 +42,21 @@ final class TldValidator
         if (count($tlds) > 2) {
             array_shift($tlds);
             $tlds = array_filter($tlds, fn($value) => $value !== '');
+            $tlds = array_map('strtolower', $tlds);
         } else {
             throw new \Exception("Tlds array is empty");
         }
 
         return $tlds;
+    }
+
+    /**
+     * Return array with imported tlds.
+     * 
+     * @return array 
+     */
+    public function getTlds(): array
+    {
+        return $this->tlds;
     }
 }
