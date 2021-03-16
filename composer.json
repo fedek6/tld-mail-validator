@@ -1,6 +1,7 @@
 {
     "name": "fedek6/tld-mail-validator",
     "type": "library",
+    "description": "PHP e-mail address validator using list of all known TLDs",
     "authors": [
         {
             "name": "Konrad Fedorczyk",
