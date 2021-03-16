@@ -52,4 +52,12 @@ final class TldValidatorTest extends TestCase
         $this->assertTrue(in_array('gb', $result, true));
         $this->assertTrue(in_array('ru', $result, true));
     }
+
+    public function testIfHasEmptyValues(): void 
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $result = $this->tldValidator->getTlds();
+
+        $this->assertFalse(in_array('', $result, true));
+    }
 }
