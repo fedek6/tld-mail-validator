@@ -23,5 +23,8 @@
     "psr-4": {
       "Fedek6\\TldMailValidator\\Tests\\": "tests"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --testdox --verbose --colors tests"
   }
 }
