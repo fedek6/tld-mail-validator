@@ -1,0 +1,11 @@
+{
+    "name": "fedek6/tld-mail-validator",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Konrad Fedorczyk",
+            "email": "contact@realhe.ro"
+        }
+    ],
+    "require": {}
+}
