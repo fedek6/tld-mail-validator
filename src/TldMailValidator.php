@@ -7,7 +7,12 @@ namespace Fedek6\TldMailValidator;
 use Exception;
 use Fedek6\TldMailValidator\TldValidator;
 
-final class TldMailValidator
+/**
+ * Tld mail validator.
+ * 
+ * @package Fedek6\TldMailValidator
+ */
+class TldMailValidator
 {
     const TLDS_FILE = __DIR__ . '/../data/tlds-alpha-by-domain.txt';
 
