@@ -10,12 +10,12 @@ use Fedek6\TldMailValidator\TldValidator;
 /**
  * Tld mail validator.
  * 
+ * @version 1.0.0
+ * @author Konrad Fedorczyk <contact@realhe.ro>
  * @package Fedek6\TldMailValidator
  */
 class TldMailValidator
 {
-    const TLDS_FILE = __DIR__ . '/../data/tlds-alpha-by-domain.txt';
-
     /** @var \Fedek6\TldMailValidator\TldValidator $tldValidator  */
     private $tldValidator;
 
@@ -25,10 +25,10 @@ class TldMailValidator
      * @return void 
      * @throws Exception 
      */
-    public function __construct()
+    public function __construct(string $storageFilePath)
     {
         $this->tldValidator = new TldValidator();
-        $this->tldValidator->loadTlds(self::TLDS_FILE);
+        $this->tldValidator->loadTlds($storageFilePath);
     }
 
     /**

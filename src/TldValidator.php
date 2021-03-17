@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace Fedek6\TldMailValidator;
 
+use Fedek6\TldMailValidator\RemoteFileUpdater;
 use Exception;
 
 /**
- * Simple tld validator.
+ * Simple tld validator with automatic update.
  * 
+ * @version 1.0.0
+ * @author Konrad Fedorczyk <contact@realhe.ro>
  * @package Fedek6\TldMailValidator
  */
 final class TldValidator
 {
+    /** @var string DATA_URL Url for downloading actual tlds. */
+    const DATA_URL = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt';
+
+    /** @var integer MAX_FILE_AGE Maximum tlds file age (in days). */
+    const MAX_FILE_AGE = 30;
+
     /** @var array $tlds */
     private $tlds = [];
 
@@ -25,7 +34,10 @@ final class TldValidator
      */
     public function loadTlds(string $path): bool
     {
-        if (file_exists($path)) {
+        $updater = new RemoteFileUpdater();
+        $status = $updater->dispatchUpdate($path, self::DATA_URL, self::MAX_FILE_AGE);
+
+        if ($status || file_exists($path)) {
             $tlds = file($path, FILE_IGNORE_NEW_LINES);
             $this->tlds = $this->cleanup($tlds);
         } else {
@@ -58,6 +70,16 @@ final class TldValidator
     {
         $tld = strtolower($tld);
         return in_array($tld, $this->tlds, true);
+    }
+
+    /**
+     * Return array with imported tlds.
+     * 
+     * @return array 
+     */
+    public function getTlds(): array
+    {
+        return $this->tlds;
     }
 
     /**
@@ -97,15 +119,5 @@ final class TldValidator
         }
 
         return $tlds;
-    }
-
-    /**
-     * Return array with imported tlds.
-     * 
-     * @return array 
-     */
-    public function getTlds(): array
-    {
-        return $this->tlds;
     }
 }
