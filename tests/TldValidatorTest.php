@@ -25,10 +25,12 @@ final class TldValidatorTest extends TestCase
         $this->tldValidator = NULL;
     }
 
-    public function testWrongFileLoadTlds(): void
+    public function testNonExistentFileLoadTlds(): void
     {
-        $this->expectException(\Exception::class);
-        $this->tldValidator->loadTlds('test');
+        $filePath = __DIR__ . '/../data/test';
+
+        $this->assertEquals(true, $this->tldValidator->loadTlds($filePath));
+        unlink($filePath);
     }
 
     public function testProperFileLoadTlds(): void

@@ -6,18 +6,17 @@ namespace Fedek6\TldMailValidator\Tests;
 
 use Fedek6\TldMailValidator\TldMailValidator;
 use PHPUnit\Framework\TestCase;
-use Fedek6\TldMailValidator\Tests\PhpUnitUtil;
 
 final class TldMailValidatorTest extends TestCase
 {
-    private $testFilePath = __DIR__ . '/../data/tlds-alpha-by-domain.txt';
+    const TLDS_FILE = __DIR__ . '/../data/tlds-alpha-by-domain.txt';
 
     /** @var Fedek6\TldMailValidator\TldMailValidator $tldValidator  */
     private $tldMailValidator;
 
     protected function setUp(): void
     {
-        $this->tldMailValidator = new TldMailValidator;
+        $this->tldMailValidator = new TldMailValidator(self::TLDS_FILE);
     }
 
     protected function tearDown(): void
