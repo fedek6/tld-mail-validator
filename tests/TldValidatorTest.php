@@ -60,4 +60,48 @@ final class TldValidatorTest extends TestCase
 
         $this->assertFalse(in_array('', $result, true));
     }
+
+    public function testRetunTldsWithoutLoad(): void 
+    {
+        $this->assertTrue(empty($this->tldValidator->getTlds()));
+    }
+
+    public function testProperCheckTld(): void
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $this->assertTrue($this->tldValidator->checkTld('press'));
+    }
+
+    public function testMixedCaseCheckTld(): void
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $this->assertTrue($this->tldValidator->checkTld('PreSS'));
+    }
+
+    public function testInvalidCheckTld(): void
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $this->assertFalse($this->tldValidator->checkTld('gutami'));
+    }
+
+    public function testExtractTldFromProperDomain(): void
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $result = PhpUnitUtil::callMethod($this->tldValidator, 'extractTld', ['oko.press']);
+        $this->assertEquals('press', $result);
+    }
+
+    public function testExtractTldFromComplexDomain(): void
+    {
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $result = PhpUnitUtil::callMethod($this->tldValidator, 'extractTld', ['wp.com.pl']);
+        $this->assertEquals('pl', $result);
+    }
+
+    public function testExtractTldFromBadDomain(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->tldValidator->loadTlds($this->testFilePath);
+        $result = PhpUnitUtil::callMethod($this->tldValidator, 'extractTld', ['press']);
+    }
 }

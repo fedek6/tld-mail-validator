@@ -6,10 +6,15 @@ namespace Fedek6\TldMailValidator;
 
 use Exception;
 
+/**
+ * Simple tld validator.
+ * 
+ * @package Fedek6\TldMailValidator
+ */
 final class TldValidator
 {
     /** @var array $tlds */
-    private $tlds;
+    private $tlds = [];
 
     /**
      * Load tlds from text file.
@@ -31,6 +36,50 @@ final class TldValidator
     }
 
     /**
+     * Check domain if has proper tld.
+     * 
+     * @param string $domain 
+     * @return bool 
+     * @throws Exception 
+     */
+    public function checkDomain(string $domain): bool
+    {
+        $tld = $this->extractTld($domain);
+        return $this->checkTld($tld);
+    }
+
+    /**
+     * Check if tld exists.
+     * 
+     * @param string $tld 
+     * @return bool 
+     */
+    public function checkTld(string $tld): bool
+    {
+        $tld = strtolower($tld);
+        return in_array($tld, $this->tlds, true);
+    }
+
+    /**
+     * Extract tld from domain name.
+     * 
+     * @param string $domain 
+     * @return string 
+     * @throws Exception
+     */
+    private function extractTld(string $domain): string
+    {
+        $domain = strtolower($domain);
+        $parts = explode(".", $domain);
+
+        if (count($parts) < 2) {
+            throw new \Exception('Unable to extract tld from domain');
+        }
+
+        return end($parts);
+    }
+
+    /**
      * Remove first line and empty rows.
      * 
      * @param array $tlds 
@@ -41,7 +90,7 @@ final class TldValidator
     {
         if (count($tlds) > 2) {
             array_shift($tlds);
-            $tlds = array_filter($tlds, fn($value) => $value !== '');
+            $tlds = array_filter($tlds, fn ($value) => $value !== '');
             $tlds = array_map('strtolower', $tlds);
         } else {
             throw new \Exception("Tlds array is empty");
