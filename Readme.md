@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/fedek6/tld-mail-validator.svg?token=Fpapy2MXqrwtfsLgfThp&branch=main)](https://travis-ci.com/fedek6/tld-mail-validator)
 
-PHP e-mail address validator using list of all known [TLDs](https://data.iana.org/TLD/tlds-alpha-by-domain.txt). With ability to automatically update tlds list.
+PHP e-mail address validator using list of all known [TLDs](https://data.iana.org/TLD/tlds-alpha-by-domain.txt) and simple domain MX record check. With ability to automatically update top-level domains list.
 
 ## Usage example
 
@@ -25,6 +25,13 @@ if ($validator->validate('janbrzechwa@mail.ru')) {
 }
 ```
 
+If you want to test also MX record of a domain (slower), pass second argument to the constructor:
+
+```php
+/** @var \Fedek6\TldMailValidator\TldMailValidator $validator */
+$validator = new TldMailValidator($tldsFilePath, TldMailValidator::TEST_ALL);
+```
+
 ## Testing
 
 ```bash
@@ -41,4 +48,11 @@ Or:
 
 ```bash
 vendor/bin/phpunit --testdox --verbose --colors tests/RemoteFileUpdaterTest.php
+```
+
+### Dry run before deploy
+
+```bash
+php -f examples/mx.php
+php -f examples/simple.php
 ```
