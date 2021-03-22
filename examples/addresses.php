@@ -9,4 +9,5 @@ return [
     'wampir@cool.transylvania',
     'killall@wampierz.press',
     'slawojka_mirka@wp.pl',
+    'szanujzielen@onetasdasjdsijd.com',
 ];
