@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Fedek6\TldMailValidator\Tests;
 
 use Fedek6\TldMailValidator\TldMailValidator;
+use Fedek6\TldMailValidator\TldValidator;
 use PHPUnit\Framework\TestCase;
 
 final class TldMailValidatorTest extends TestCase
@@ -54,5 +55,21 @@ final class TldMailValidatorTest extends TestCase
         $this->assertTrue($this->tldMailValidator->validate('jan.wlodarski@onet.com.pl'));
         $this->assertTrue($this->tldMailValidator->validate('jan.wlodarski@mnw.art.pl'));
         $this->assertTrue($this->tldMailValidator->validate('wlodekciechan@serwer.mil.gov.pl'));
+    }
+
+    public function testWithMxProper(): void
+    {
+        $this->tldMailValidator = new TldMailValidator(self::TLDS_FILE, TldMailValidator::TEST_ALL);
+        $this->assertTrue($this->tldMailValidator->validate('jan@onet.pl'));
+        $this->assertTrue($this->tldMailValidator->validate('jan@wp.pl'));
+        $this->assertTrue($this->tldMailValidator->validate('jan@gmail.com'));
+        $this->assertTrue($this->tldMailValidator->validate('jan@biznes.pl'));
+    }
+
+    public function testWithMxInvalid(): void
+    {
+        $this->tldMailValidator = new TldMailValidator(self::TLDS_FILE, TldMailValidator::TEST_ALL);
+        $this->assertFalse($this->tldMailValidator->validate('jan@onetdadagsdfdfdfsdf.pl'));
+        $this->assertFalse($this->tldMailValidator->validate('jan@nosuchdomaind3243s3.com'));
     }
 }
